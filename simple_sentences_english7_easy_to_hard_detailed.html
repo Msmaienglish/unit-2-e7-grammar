@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>English 7 | Simple Sentences Mastery</title>
+<style>
+  :root{
+    --bg:#07111f; --panel:#0d1b2a; --panel2:#10263a; --text:#ecf5ff;
+    --muted:#9db4c8; --accent:#4dd4ac; --accent2:#68a7ff; --danger:#ff6b81;
+    --warn:#ffd166; --ok:#55e6a5; --line:#1d3a53; --shadow:0 14px 40px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial;
+    background:radial-gradient(circle at top right,#12304a 0,#07111f 42%,#050b13 100%);
+    color:var(--text); min-height:100vh}
+  .wrap{max-width:1120px;margin:auto;padding:24px}
+  .hero{padding:34px;border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(77,212,172,.13),rgba(104,167,255,.09));box-shadow:var(--shadow)}
+  .badge{display:inline-block;padding:7px 12px;border-radius:999px;background:#0e2e2b;color:#8cf0d1;font-weight:800;font-size:13px;letter-spacing:.4px}
+  h1{font-size:clamp(30px,5vw,52px);margin:12px 0 8px}
+  h2{font-size:27px;margin:0 0 14px}
+  h3{margin:0 0 10px}
+  p{line-height:1.7;color:#dce9f5}
+  .sub{color:var(--muted);font-size:16px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}
+  @media(max-width:780px){.grid{grid-template-columns:1fr}.wrap{padding:14px}.hero{padding:22px}}
+  .card{background:rgba(13,27,42,.94);border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:var(--shadow);margin-top:18px}
+  .formula{font:700 18px ui-monospace,SFMono-Regular,Menlo,monospace;color:#bfe6ff;background:#071826;border-left:4px solid var(--accent);
+    padding:12px 14px;border-radius:10px;margin:10px 0}
+  .example{color:#f6fbff;margin:6px 0 14px}
+  .hl{color:var(--accent);font-weight:800}
+  .note{background:#142337;border:1px solid #244661;padding:14px;border-radius:14px;color:#e7f0f8}
+  .memory{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+  @media(max-width:720px){.memory{grid-template-columns:1fr 1fr}}
+  .memory div{background:#0a1c2d;border:1px solid #183950;border-radius:13px;padding:12px}
+  .memory strong{display:block;color:#7ce7c4}
+  .controls{display:flex;gap:10px;flex-wrap:wrap;align-items:center}
+  input{background:#071826;border:1px solid #29506d;border-radius:12px;color:white;padding:12px 13px;outline:none}
+  button{border:0;border-radius:12px;padding:12px 16px;font-weight:800;cursor:pointer;transition:.2s}
+  .primary{background:linear-gradient(90deg,var(--accent),#6fe8c6);color:#06251c}
+  .secondary{background:#173149;color:#d9ecff}
+  .danger{background:#4a1f2b;color:#ffdce3}
+  button:hover{transform:translateY(-1px);filter:brightness(1.06)}
+  button:disabled{opacity:.45;cursor:not-allowed;transform:none}
+  #quizSection{display:none}
+  .topbar{position:sticky;top:10px;z-index:10;background:rgba(7,17,31,.92);backdrop-filter:blur(10px);border:1px solid var(--line);padding:12px;border-radius:14px;margin:14px 0}
+  .progress{height:9px;background:#122536;border-radius:999px;overflow:hidden}
+  .bar{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--accent2));transition:.3s}
+  .qmeta{display:flex;justify-content:space-between;gap:10px;color:var(--muted);margin-bottom:8px;font-size:14px}
+  .question{font-size:21px;font-weight:800;line-height:1.5;margin:8px 0 14px}
+  .answers{display:grid;gap:10px}
+  .opt{display:flex;gap:10px;align-items:flex-start;text-align:left;background:#0b2031;border:1px solid #20425a;color:#eef8ff;padding:13px 14px;border-radius:13px}
+  .opt:hover{border-color:#3e7599}
+  .opt.correct{border-color:#3fd29e;background:#103629}
+  .opt.wrong{border-color:#ff6b81;background:#3a1821}
+  .letter{min-width:28px;height:28px;border-radius:8px;background:#15344c;display:grid;place-items:center;font-weight:900}
+  .feedback{display:none;margin-top:14px;border-radius:14px;padding:15px;background:#091a28;border:1px solid #21445e}
+  .feedback.show{display:block}
+  .feedback.good{border-color:#2da97d}
+  .feedback.bad{border-color:#b74458}
+  .why{margin-top:10px;display:grid;gap:8px}
+  .why div{background:#0d2537;padding:9px 11px;border-radius:9px;color:#d9e9f7}
+  .why b{color:#fff}
+  .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+  @media(max-width:720px){.stats{grid-template-columns:1fr 1fr}}
+  .stat{background:#0a1c2d;border:1px solid #183950;border-radius:12px;padding:12px;text-align:center}
+  .stat b{font-size:22px;display:block;color:#8df1d3}
+  .hidden{display:none!important}
+  .result{font-size:18px}
+  .pill{padding:5px 9px;border-radius:999px;background:#153047;color:#b9d9ef;font-size:13px}
+  .shake{animation:shake .35s}
+  @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+  .spark{position:fixed;width:8px;height:8px;border-radius:50%;pointer-events:none;animation:fly 850ms ease-out forwards;z-index:9999}
+  @keyframes fly{to{transform:translate(var(--x),var(--y)) rotate(300deg);opacity:0}}
+  footer{text-align:center;color:#67849a;padding:28px 0}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <section class="hero">
+    <span class="badge">ENGLISH 7 • MIDTERM I MASTERY</span>
+    <h1>Simple Sentences — Câu đơn</h1>
+    <p class="sub">Học lý thuyết trước → làm 40 câu theo lộ trình từ rất dễ đến khó → tập trung nhận diện chức năng phần gạch chân (S/V/O/C/Adv/prep + O) → xem giải thích chi tiết từng A/B/C/D → làm lại câu sai đến khi thành thạo.</p>
+  </section>
+
+  <section class="card">
+    <h2>1. Lý thuyết phải nhớ</h2>
+    <p><span class="hl">Câu đơn (simple sentence)</span> là câu chỉ có <b>một mệnh đề chính</b>. Thường câu có <b>một chủ ngữ (S)</b> và <b>một động từ chính (V)</b>.</p>
+    <div class="note">
+      Một câu vẫn là <b>câu đơn</b> khi có <b>chủ ngữ kép</b> (hai chủ ngữ nối bằng <i>and</i>) hoặc <b>động từ kép</b> (hai động từ nối bằng <i>and</i>), miễn là vẫn chỉ có <b>một mệnh đề chính</b>.
+      <br><b>Ví dụ:</b> Linda and Jenny are playing tennis. / Nam gets up and brushes his teeth.
+    </div>
+
+    <div class="grid">
+      <div>
+        <div class="formula">S + V (+ Adv)</div>
+        <div class="example"><b>The Sun rises</b> (in the East).<br><span class="sub">S = The Sun; V = rises; Adv = in the East</span></div>
+      </div>
+      <div>
+        <div class="formula">S + V + C</div>
+        <div class="example"><b>He is a teacher.</b><br><span class="sub">C = complement (bổ ngữ), mô tả/định danh chủ ngữ.</span></div>
+      </div>
+      <div>
+        <div class="formula">S + V + O</div>
+        <div class="example"><b>He likes coffee.</b><br><span class="sub">O = object (tân ngữ), nhận tác động của động từ.</span></div>
+      </div>
+      <div>
+        <div class="formula">S + V + prep + O</div>
+        <div class="example"><b>They are looking at the picture.</b><br><span class="sub">prep = preposition (giới từ): at, for, after, with, to...</span></div>
+      </div>
+    </div>
+
+    <h3 style="margin-top:18px">Mẹo nhớ 10 giây</h3>
+    <div class="memory">
+      <div><strong>S</strong>Ai/cái gì làm?</div>
+      <div><strong>V</strong>Làm gì / ở trạng thái nào?</div>
+      <div><strong>O</strong>Ai/cái gì nhận tác động?</div>
+      <div><strong>C</strong>Mô tả/định danh S.</div>
+    </div>
+
+    <p><b>Phân biệt O và C:</b> Sau động từ nối như <i>be, become, seem, look, feel</i>, thành phần phía sau thường là <b>C</b>. Sau động từ hành động như <i>like, play, read, help, visit</i>, thành phần phía sau thường là <b>O</b>.</p>
+    <p><b>Câu có “and” chưa chắc là câu ghép:</b> <i>Mai and Lan play badminton.</i> = chủ ngữ kép → vẫn là câu đơn. <i>Mai plays badminton and listens to music.</i> = động từ kép → vẫn là câu đơn.</p>
+
+    <div class="note" style="margin:16px 0">
+      <b>Lộ trình 6 mức:</b> Mức 1 nhận diện S/V/O/Adv → Mức 2 phân biệt O/C/Adv/prep + O → Mức 3 chủ ngữ kép/động từ kép → Mức 4 vận dụng ngữ pháp giữa kỳ → Mức 5 phân tích cả câu → Mức 6 câu phân loại và bẫy dễ nhầm.
+    </div>
+    <div class="controls">
+      <input id="studentName" placeholder="Tên học sinh" />
+      <input id="studentClass" placeholder="Lớp (VD: 7A1)" />
+      <button class="primary" onclick="startQuiz()">Tôi đã học lý thuyết → Bắt đầu 40 câu</button>
+    </div>
+  </section>
+
+  <section id="quizSection">
+    <div class="topbar">
+      <div class="qmeta"><span id="studentLabel">Học sinh</span><span id="counter">Câu 1/40</span></div>
+      <div class="progress"><div class="bar" id="bar"></div></div>
+    </div>
+
+    <div class="card" id="questionCard">
+      <div class="qmeta"><span class="pill" id="topicPill">Nhận diện cấu trúc</span><span id="scoreNow">Điểm: 0</span></div>
+      <div class="question" id="questionText"></div>
+      <div class="answers" id="answers"></div>
+      <div class="feedback" id="feedback">
+        <div id="feedbackTitle"></div>
+        <div id="feedbackMain"></div>
+        <div class="why" id="why"></div>
+      </div>
+      <div class="controls" style="margin-top:14px">
+        <button class="secondary" id="nextBtn" onclick="nextQuestion()" disabled>Câu tiếp theo →</button>
+      </div>
+    </div>
+
+    <div class="card hidden" id="resultCard">
+      <h2>Kết quả</h2>
+      <div class="stats">
+        <div class="stat"><b id="finalScore">0/40</b>Điểm đúng</div>
+        <div class="stat"><b id="percent">0%</b>Tỷ lệ</div>
+        <div class="stat"><b id="wrongCount">0</b>Câu sai</div>
+        <div class="stat"><b id="level">—</b>Mức độ</div>
+      </div>
+      <p class="result" id="resultText"></p>
+      <div class="controls">
+        <button class="primary" id="retryWrongBtn" onclick="retryWrong()">Làm lại toàn bộ câu sai</button>
+        <button class="secondary" onclick="restartAll()">Làm lại đủ 40 câu</button>
+      </div>
+    </div>
+  </section>
+
+  <footer>Simple Sentences Mastery • English 7 • Học kỹ – làm chắc – nhớ lâu</footer>
+</div>
+
+<script>
+const questions = [
+/* =========================
+   LEVEL 1 — NHẬN DIỆN RẤT CƠ BẢN
+   ========================= */
+{t:"Mức 1 • Nhận diện S",q:"Trong câu “<u>Lan</u> plays badminton every afternoon.”, phần gạch chân có chức năng gì?",o:["Subject (S) – Chủ ngữ","Verb (V) – Động từ","Object (O) – Tân ngữ","Adverbial (Adv) – Trạng ngữ"],a:0,e:[
+"Đúng. <u>Lan</u> là người thực hiện hành động “plays”, vì vậy đây là <b>Subject (S) – chủ ngữ</b>. Muốn tìm S, hãy hỏi: <i>Ai/cái gì thực hiện hành động?</i>",
+"Sai. Động từ của câu là “plays”, không phải “Lan”.",
+"Sai. Tân ngữ là thành phần nhận tác động của động từ. Trong câu này “badminton” mới là O.",
+"Sai. Trạng ngữ cho biết thời gian, nơi chốn, cách thức... “every afternoon” mới là trạng ngữ."
+]},
+{t:"Mức 1 • Nhận diện V",q:"Trong câu “My brother <u>reads</u> comics after dinner.”, phần gạch chân có chức năng gì?",o:["Subject (S)","Verb (V)","Object (O)","Complement (C)"],a:1,e:[
+"Sai. Chủ ngữ là “My brother”.",
+"Đúng. <u>reads</u> diễn tả hành động mà chủ ngữ thực hiện, nên là <b>Verb (V)</b>.",
+"Sai. “comics” mới là tân ngữ vì đó là thứ được đọc.",
+"Sai. Bổ ngữ C thường mô tả hoặc định danh chủ ngữ, thường đứng sau động từ nối như be, seem, look, feel..."
+]},
+{t:"Mức 1 • Nhận diện O",q:"Trong câu “She loves <u>music</u>.”, phần gạch chân là gì?",o:["S","V","O","C"],a:2,e:[
+"Sai. Chủ ngữ là “She”.",
+"Sai. Động từ là “loves”.",
+"Đúng. <u>music</u> là thứ mà “She” yêu thích; nó đứng sau động từ hành động “loves” và nhận tác động của động từ → <b>Object (O)</b>.",
+"Sai. “music” không mô tả hay định danh “She”, nên không phải C."
+]},
+{t:"Mức 1 • Nhận diện Adv",q:"Trong câu “The children play football <u>after school</u>.”, phần gạch chân là gì?",o:["Object (O)","Complement (C)","Adverbial (Adv)","Subject (S)"],a:2,e:[
+"Sai. “after school” không phải đối tượng bị “play”.",
+"Sai. Nó không mô tả chủ ngữ “The children”.",
+"Đúng. <u>after school</u> cho biết <b>thời gian</b> diễn ra hành động, vì vậy là <b>Adverbial (Adv)</b>.",
+"Sai. Chủ ngữ là “The children”."
+]},
+{t:"Mức 1 • S + V",q:"Câu nào có cấu trúc cơ bản S + V?",o:["Birds fly.","Birds eat seeds.","Birds are beautiful.","Birds look at the lake."],a:0,e:[
+"Đúng. “Birds” = S, “fly” = V. Không có O hay C bắt buộc phía sau.",
+"Sai. “seeds” là O → S + V + O.",
+"Sai. “beautiful” là C → S + V + C.",
+"Sai. “at the lake” là prep + O → S + V + prep + O."
+]},
+{t:"Mức 1 • S + V + O",q:"Câu nào có cấu trúc S + V + O?",o:["My father sleeps early.","My father is kind.","My father drives a car.","My father talks to me."],a:2,e:[
+"Sai. “early” là trạng từ → S + V (+ Adv).",
+"Sai. “kind” là C sau động từ nối “is”.",
+"Đúng. “My father” = S, “drives” = V, “a car” = O.",
+"Sai. “to me” là prep + O."
+]},
+{t:"Mức 1 • S + V + C",q:"Câu nào có cấu trúc S + V + C?",o:["The soup smells delicious.","The girl opens the door.","The dog runs quickly.","The boy looks at the picture."],a:0,e:[
+"Đúng. “smells” ở đây là động từ nối; “delicious” mô tả “The soup” → C.",
+"Sai. “the door” là O.",
+"Sai. “quickly” là Adv.",
+"Sai. “at the picture” = prep + O."
+]},
+{t:"Mức 1 • prep + O",q:"Trong câu “They are looking <u>at the picture</u>.”, phần gạch chân được phân tích đúng nhất là:",o:["Object trực tiếp","Complement","Preposition + Object","Adverb chỉ tần suất"],a:2,e:[
+"Sai. “the picture” không đi trực tiếp sau động từ “look”; cần giới từ “at”.",
+"Sai. Cụm này không mô tả hay định danh chủ ngữ.",
+"Đúng. “at” là <b>preposition</b>, “the picture” là <b>object of the preposition</b> → prep + O.",
+"Sai. Cụm này không chỉ tần suất."
+]},
+
+/* =========================
+   LEVEL 2 — PHÂN BIỆT O / C / ADV / PREP + O
+   ========================= */
+{t:"Mức 2 • Phân biệt O/C",q:"Trong câu “He is <u>a teacher</u>.”, phần gạch chân là gì?",o:["Object (O)","Complement (C)","Adverbial (Adv)","Subject (S)"],a:1,e:[
+"Sai. “a teacher” không phải đối tượng nhận tác động của hành động.",
+"Đúng. Động từ “is” là linking verb; <u>a teacher</u> định danh cho “He” → <b>Complement (C)</b>.",
+"Sai. Đây không phải trạng ngữ.",
+"Sai. Chủ ngữ là “He”."
+]},
+{t:"Mức 2 • Phân biệt O/C",q:"Trong câu “The flowers smell <u>sweet</u>.”, từ gạch chân có chức năng gì?",o:["Object","Complement","Adverb","Preposition"],a:1,e:[
+"Sai. “sweet” không phải danh từ/tân ngữ nhận tác động.",
+"Đúng. “smell” trong câu này là linking verb; “sweet” là tính từ mô tả chủ ngữ “The flowers” → C.",
+"Sai. “sweet” là tính từ, không phải trạng từ “sweetly”.",
+"Sai. “sweet” không phải giới từ."
+]},
+{t:"Mức 2 • Phân biệt O/Adv",q:"Trong câu “She sings <u>beautifully</u>.”, phần gạch chân là gì?",o:["O","C","Adv","S"],a:2,e:[
+"Sai. “beautifully” không phải đối tượng nhận tác động.",
+"Sai. Nó không mô tả chủ ngữ qua linking verb.",
+"Đúng. “beautifully” là trạng từ bổ nghĩa cho động từ “sings”, cho biết <b>cách thức</b> hát.",
+"Sai. Chủ ngữ là “She”."
+]},
+{t:"Mức 2 • Prep + O",q:"Trong câu “We listen <u>to music</u> every night.”, phần gạch chân có cấu tạo gì?",o:["V + O","prep + O","C","Adv + O"],a:1,e:[
+"Sai. “music” không đứng trực tiếp sau “listen”; động từ này cần “to”.",
+"Đúng. “to” = preposition, “music” = object của giới từ → prep + O.",
+"Sai. Cụm này không mô tả chủ ngữ.",
+"Sai. “to” không phải trạng từ."
+]},
+{t:"Mức 2 • Phân biệt mẫu câu",q:"Câu “Our classroom is very clean.” thuộc mẫu nào?",o:["S + V + O","S + V + C","S + V + prep + O","S + V (+ Adv)"],a:1,e:[
+"Sai. “very clean” không phải O.",
+"Đúng. “is” là linking verb; “very clean” mô tả “Our classroom” → C.",
+"Sai. Không có giới từ + tân ngữ.",
+"Sai. Cụm sau “is” là complement chứ không chỉ là adverbial."
+]},
+{t:"Mức 2 • Phân biệt mẫu câu",q:"Câu “The lesson starts at 7:30.” thuộc mẫu nào?",o:["S + V (+ Adv)","S + V + O","S + V + C","S + V + prep + O bắt buộc"],a:0,e:[
+"Đúng. “The lesson” = S, “starts” = V, “at 7:30” là trạng ngữ thời gian.",
+"Sai. Không có tân ngữ trực tiếp.",
+"Sai. Không có bổ ngữ mô tả S.",
+"Sai. Dù có giới từ “at”, cụm “at 7:30” ở đây hoạt động như trạng ngữ thời gian, không phải cụm giới từ bắt buộc đi kèm động từ."
+]},
+{t:"Mức 2 • Chức năng từ gạch chân",q:"Trong câu “My sister looks <u>happy</u> today.”, từ gạch chân là:",o:["Object","Complement","Adverb","Preposition"],a:1,e:[
+"Sai. Không có hành động tác động lên “happy”.",
+"Đúng. “looks” = trông có vẻ, là linking verb; “happy” mô tả “My sister” → C.",
+"Sai. “happy” là tính từ; trạng từ tương ứng là “happily”.",
+"Sai. Không phải giới từ."
+]},
+
+/* =========================
+   LEVEL 3 — CHỦ NGỮ KÉP / ĐỘNG TỪ KÉP
+   ========================= */
+{t:"Mức 3 • Chủ ngữ kép",q:"Trong câu “<u>Linda and Jenny</u> are playing tennis.”, phần gạch chân là:",o:["Hai mệnh đề","Chủ ngữ kép","Động từ kép","Tân ngữ kép"],a:1,e:[
+"Sai. Chỉ có một cụm chủ ngữ và một cụm vị ngữ, không phải hai mệnh đề.",
+"Đúng. “Linda” và “Jenny” cùng làm chủ ngữ và được nối bằng “and” → <b>compound subject</b>.",
+"Sai. Động từ là “are playing”.",
+"Sai. Đây không phải tân ngữ."
+]},
+{t:"Mức 3 • Động từ kép",q:"Trong câu “Nam <u>gets up and brushes</u> his teeth.”, phần gạch chân là:",o:["Chủ ngữ kép","Động từ kép","Hai câu độc lập","Tân ngữ"],a:1,e:[
+"Sai. Chủ ngữ chỉ có “Nam”.",
+"Đúng. Một chủ ngữ “Nam” thực hiện hai hành động “gets up” và “brushes” nối bằng “and” → động từ kép.",
+"Sai. Không có chủ ngữ thứ hai nên không tạo hai mệnh đề độc lập.",
+"Sai. Đây là cụm động từ, không phải tân ngữ."
+]},
+{t:"Mức 3 • Câu đơn",q:"Câu nào vẫn là câu đơn dù có “and”?",o:["Mai plays badminton, and Lan reads books.","Mai and Lan play badminton.","Mai plays because she likes sports.","When Mai arrives, Lan leaves."],a:1,e:[
+"Sai. Có hai mệnh đề độc lập: “Mai plays...” và “Lan reads...”.",
+"Đúng. “Mai and Lan” chỉ là chủ ngữ kép trong <b>một mệnh đề</b>.",
+"Sai. Có mệnh đề phụ “because she likes sports”.",
+"Sai. Có mệnh đề phụ “When Mai arrives”."
+]},
+{t:"Mức 3 • Câu đơn",q:"Câu nào là câu đơn có động từ kép?",o:["Tom gets up and makes breakfast.","Tom gets up, and his sister makes breakfast.","Tom gets up because he is late.","After Tom gets up, his sister cooks."],a:0,e:[
+"Đúng. Một chủ ngữ “Tom” + hai động từ “gets up” và “makes”.",
+"Sai. Hai chủ ngữ → hai mệnh đề độc lập.",
+"Sai. Có mệnh đề phụ because.",
+"Sai. Có mệnh đề phụ After."
+]},
+{t:"Mức 3 • Phân tích",q:"Trong câu “The students <u>clean and decorate</u> the classroom.”, phần gạch chân có chức năng gì?",o:["Compound verb – Động từ kép","Compound subject – Chủ ngữ kép","Object","Complement"],a:0,e:[
+"Đúng. Hai động từ “clean” và “decorate” cùng chung chủ ngữ “The students”.",
+"Sai. Chủ ngữ là “The students”.",
+"Sai. Tân ngữ là “the classroom”.",
+"Sai. Không phải bổ ngữ mô tả chủ ngữ."
+]},
+{t:"Mức 3 • Phân tích",q:"Trong câu “<u>My best friend and I</u> go cycling every Sunday.”, phần gạch chân là gì?",o:["Compound subject","Compound verb","Object","Adverbial"],a:0,e:[
+"Đúng. Hai thành phần “My best friend” và “I” cùng làm chủ ngữ.",
+"Sai. Động từ là “go”.",
+"Sai. Không phải tân ngữ.",
+"Sai. Trạng ngữ là “every Sunday”."
+]},
+
+/* =========================
+   LEVEL 4 — ỨNG DỤNG NGỮ PHÁP GIỮA KÌ
+   ========================= */
+{t:"Mức 4 • S-V agreement",q:"Chọn câu đúng.",o:["My sister enjoy reading comics.","My sister enjoys reading comics.","My sister enjoying reading comics.","My sister is enjoy reading comics."],a:1,e:[
+"Sai. “My sister” là chủ ngữ số ít → động từ hiện tại đơn phải thêm -s/-es.",
+"Đúng. “My sister” số ít + “enjoys”; “reading comics” là cụm làm tân ngữ.",
+"Sai. “enjoying” không thể tự làm động từ chính của câu hiện tại đơn.",
+"Sai. Không dùng “is + enjoy” trong cấu trúc này."
+]},
+{t:"Mức 4 • S-V agreement",q:"Chọn câu đúng với chủ ngữ kép.",o:["Tom and Jack walks to school.","Tom and Jack walk to school.","Tom and Jack is walking to school every day.","Tom and Jack goes to school."],a:1,e:[
+"Sai. Chủ ngữ kép “Tom and Jack” là số nhiều → không dùng “walks”.",
+"Đúng. Chủ ngữ số nhiều → “walk”.",
+"Sai. “every day” thường chỉ thói quen; dùng hiện tại đơn tự nhiên hơn, và “Tom and Jack” phải đi với “are” nếu dùng tiếp diễn.",
+"Sai. Chủ ngữ số nhiều không dùng “goes”."
+]},
+{t:"Mức 4 • Chức năng từ gạch chân",q:"Trong câu “We usually help <u>old people</u> at weekends.”, phần gạch chân là:",o:["S","V","O","C"],a:2,e:[
+"Sai. Chủ ngữ là “We”.",
+"Sai. Động từ là “help”.",
+"Đúng. “old people” là người nhận tác động của hành động “help” → O.",
+"Sai. “old people” không mô tả “We”."
+]},
+{t:"Mức 4 • Chức năng từ gạch chân",q:"Trong câu “Her hobby is <u>collecting stamps</u>.”, phần gạch chân là:",o:["Object","Complement","Adverbial","Subject"],a:1,e:[
+"Sai. Sau linking verb “is”, cụm này không phải tân ngữ.",
+"Đúng. “collecting stamps” nêu nội dung/định danh cho “Her hobby” → Complement.",
+"Sai. Không phải trạng ngữ.",
+"Sai. Chủ ngữ là “Her hobby”."
+]},
+{t:"Mức 4 • Chức năng từ gạch chân",q:"Trong câu “She takes care <u>of her little brother</u>.”, phần gạch chân là:",o:["Object trực tiếp","prep + O","Complement","Adverb chỉ nơi chốn"],a:1,e:[
+"Sai. Cần giới từ “of”, nên không phải O trực tiếp.",
+"Đúng. “of” là giới từ; “her little brother” là object của giới từ.",
+"Sai. Cụm này không mô tả chủ ngữ “She”.",
+"Sai. Nó không chỉ nơi chốn."
+]},
+{t:"Mức 4 • Từ loại",q:"Chọn từ đúng: “The baby sleeps ____.”",o:["peaceful","peacefully","peace","peacefulness"],a:1,e:[
+"Sai. “peaceful” là tính từ; sau động từ hành động “sleeps” cần trạng từ chỉ cách thức.",
+"Đúng. “peacefully” là trạng từ bổ nghĩa cho “sleeps”.",
+"Sai. “peace” là danh từ.",
+"Sai. “peacefulness” là danh từ."
+]},
+{t:"Mức 4 • Từ loại + C",q:"Chọn từ đúng: “The flowers smell ____.”",o:["sweet","sweetly","sweetness","sweets"],a:0,e:[
+"Đúng. “smell” là linking verb trong câu này, nên theo sau bằng tính từ “sweet” làm C.",
+"Sai. “sweetly” là trạng từ; không dùng sau linking verb để mô tả chủ ngữ.",
+"Sai. “sweetness” là danh từ.",
+"Sai. “sweets” là danh từ số nhiều."
+]},
+{t:"Mức 4 • Hiện tại đơn",q:"Chọn câu đúng.",o:["They often goes to the library.","They often go to the library.","They are often go to the library.","They going often to the library."],a:1,e:[
+"Sai. “They” là chủ ngữ số nhiều → dùng “go”.",
+"Đúng. “often” đứng trước động từ thường “go”.",
+"Sai. Không dùng “are + go”.",
+"Sai. Thiếu động từ chia thì và sai trật tự."
+]},
+
+/* =========================
+   LEVEL 5 — PHÂN TÍCH CẤU TRÚC TOÀN CÂU
+   ========================= */
+{t:"Mức 5 • Phân tích toàn câu",q:"Phân tích đúng câu “We usually help old people at weekends.”",o:[
+"S=We; Adv=usually; V=help; O=old people; Adv=at weekends",
+"S=We; V=usually; O=help",
+"S=old people; V=help",
+"S=We; V=help; C=old people"
+],a:0,e:[
+"Đúng. “We” = S; “usually” = trạng từ tần suất; “help” = V; “old people” = O; “at weekends” = trạng ngữ thời gian.",
+"Sai. “usually” không phải động từ.",
+"Sai. “old people” không thực hiện hành động.",
+"Sai. “old people” là người được giúp nên là O, không phải C."
+]},
+{t:"Mức 5 • Phân tích toàn câu",q:"Phân tích đúng câu “My classroom is very clean.”",o:[
+"S=My classroom; V=is; C=very clean",
+"S=My classroom; V=is; O=very clean",
+"S=clean; V=is",
+"S=My classroom; V=clean"
+],a:0,e:[
+"Đúng. “is” là linking verb; “very clean” mô tả chủ ngữ → C.",
+"Sai. Không có hành động tác động vào “very clean”.",
+"Sai. “clean” không phải chủ ngữ.",
+"Sai. “clean” là tính từ, không phải V."
+]},
+{t:"Mức 5 • Phân tích toàn câu",q:"Phân tích đúng câu “Our teacher looks at our projects carefully.”",o:[
+"S + V + C",
+"S + V + O",
+"S + V + prep + O (+ Adv)",
+"S + V (+ Adv)"
+],a:2,e:[
+"Sai. “our projects” không mô tả “Our teacher”.",
+"Sai. “look” trong nghĩa “nhìn vào” cần giới từ “at”.",
+"Đúng. S=Our teacher; V=looks; prep=at; O=our projects; Adv=carefully.",
+"Sai. Câu có cụm prep + O rõ ràng."
+]},
+{t:"Mức 5 • Phân tích toàn câu",q:"Câu nào có bổ ngữ C là một tính từ?",o:["The exercise seems easy.","The students finish the exercise.","The students work quietly.","The students talk about the exercise."],a:0,e:[
+"Đúng. “seems” là linking verb; “easy” là adjective làm C.",
+"Sai. “the exercise” là O.",
+"Sai. “quietly” là Adv.",
+"Sai. “about the exercise” = prep + O."
+]},
+{t:"Mức 5 • Câu đơn nâng cao",q:"Câu nào có cả chủ ngữ kép và động từ kép nhưng vẫn là câu đơn?",o:[
+"Anna and Ben cook and clean together.",
+"Anna cooks, and Ben cleans.",
+"Anna cooks because Ben is busy.",
+"When Anna cooks, Ben cleans."
+],a:0,e:[
+"Đúng. S kép = “Anna and Ben”; V kép = “cook and clean”; toàn câu vẫn chỉ có một mệnh đề chính.",
+"Sai. Có hai chủ ngữ riêng “Anna” và “Ben” tạo hai mệnh đề độc lập.",
+"Sai. Có mệnh đề phụ “because Ben is busy”.",
+"Sai. Có mệnh đề phụ “When Anna cooks”."
+]},
+
+/* =========================
+   LEVEL 6 — CÂU HỎI KHÓ, GẦN DẠNG ĐỀ
+   ========================= */
+{t:"Mức 6 • Phân biệt look",q:"So sánh hai câu: (1) “She looks <u>happy</u>.” và (2) “She looks <u>at the board</u>.”. Nhận định nào đúng?",o:[
+"Phần gạch chân ở cả hai câu đều là O.",
+"“happy” là C; “at the board” là prep + O.",
+"“happy” là Adv; “at the board” là C.",
+"Cả hai đều là Adv."
+],a:1,e:[
+"Sai. “happy” không phải O.",
+"Đúng. Ở câu (1), “look” = trông có vẻ → linking verb, “happy” = C. Ở câu (2), “look at” = nhìn vào → “at” + O.",
+"Sai. “happy” là adjective, không phải adverb; “at the board” cũng không phải C.",
+"Sai. Hai phần có chức năng khác nhau."
+]},
+{t:"Mức 6 • Phân biệt smell",q:"So sánh: “The soup smells <u>good</u>.” và “The chef smells <u>the soup</u>.”. Nhận định nào đúng?",o:[
+"“good” là C; “the soup” là O.",
+"“good” là O; “the soup” là C.",
+"Cả hai đều là C.",
+"Cả hai đều là O."
+],a:0,e:[
+"Đúng. Câu 1: “smells” = có mùi → linking verb, “good” = C. Câu 2: “smells” = ngửi → action verb, “the soup” = O.",
+"Sai. Hai chức năng bị đảo ngược.",
+"Sai. Ở câu 2, “the soup” nhận tác động của hành động “smells” → O.",
+"Sai. Ở câu 1, “good” mô tả chủ ngữ “The soup” → C."
+]},
+{t:"Mức 6 • Nhận diện mệnh đề",q:"Câu nào KHÔNG phải câu đơn?",o:[
+"My mother cooks and cleans every day.",
+"My father and mother work hard.",
+"My mother cooks, and my father washes the dishes.",
+"The boys play football after school."
+],a:2,e:[
+"Sai vì đây vẫn là câu đơn: một chủ ngữ + động từ kép.",
+"Sai vì đây vẫn là câu đơn: chủ ngữ kép + một động từ.",
+"Đúng. Có hai mệnh đề độc lập, mỗi mệnh đề có chủ ngữ và động từ riêng.",
+"Sai vì đây là một câu đơn."
+]},
+{t:"Mức 6 • Chức năng cụm gạch chân",q:"Trong câu “My sister cooks dinner <u>and washes the dishes</u>.”, phần gạch chân cho thấy điều gì?",o:[
+"Một mệnh đề độc lập thứ hai",
+"Động từ kép cùng chung chủ ngữ “My sister”",
+"Chủ ngữ kép",
+"Một bổ ngữ C"
+],a:1,e:[
+"Sai. Không có chủ ngữ mới đứng trước “washes”.",
+"Đúng. “cooks” và “washes” cùng thuộc chủ ngữ “My sister”, nên toàn câu vẫn là một câu đơn.",
+"Sai. Chủ ngữ chỉ có “My sister”.",
+"Sai. Đây là cụm động từ, không phải complement."
+]},
+{t:"Mức 6 • Dịch Việt–Anh",q:"Chọn câu đúng nhất cho “Lan thường giúp mẹ làm việc nhà.”",o:[
+"Lan usually helps her mother with housework.",
+"Lan usually help her mother with housework.",
+"Lan is usually helps her mother.",
+"Lan helps usually her mother housework."
+],a:0,e:[
+"Đúng. “Lan” số ít → “helps”; “usually” đứng trước động từ thường; “her mother” là O; “with housework” là cụm giới từ.",
+"Sai. Thiếu -s ở động từ.",
+"Sai. Không dùng “is + helps”.",
+"Sai. Trật tự từ và cấu trúc giới từ không tự nhiên."
+]},
+{t:"Mức 6 • Dịch Việt–Anh",q:"Chọn câu đúng nhất cho “Các bạn của tôi và tôi chơi cầu lông vào cuối tuần.”",o:[
+"My friends and I plays badminton at weekends.",
+"My friends and I play badminton at weekends.",
+"My friends and I playing badminton at weekends.",
+"My friends and I are play badminton at weekends."
+],a:1,e:[
+"Sai. Chủ ngữ kép số nhiều → không thêm -s.",
+"Đúng. S kép + V “play” + O “badminton” + Adv “at weekends”.",
+"Sai. “playing” không thể tự làm động từ chính ở hiện tại đơn.",
+"Sai. Không dùng “are + play”."
+]},
+{t:"Mức 6 • Song song cấu trúc",q:"Chọn câu đúng về cấu trúc song song.",o:[
+"I like reading and draw pictures.",
+"I like reading and drawing pictures.",
+"I liking reading and drawing pictures.",
+"I am like reading and drawing pictures."
+],a:1,e:[
+"Sai. Sau “like”, hai thành phần nối bằng and nên song song: reading / drawing.",
+"Đúng. “reading” và “drawing” đều là V-ing song song.",
+"Sai. “liking” không được chia thành động từ chính phù hợp.",
+"Sai. “am like” không dùng với nghĩa “thích”."
+]},
+{t:"Mức 6 • Tổng hợp chức năng",q:"Trong câu “The club organizes <u>interesting activities</u> for students.”, phần gạch chân là:",o:[
+"Subject",
+"Verb",
+"Object",
+"Complement"
+],a:2,e:[
+"Sai. Subject là “The club”.",
+"Sai. Verb là “organizes”.",
+"Đúng. “interesting activities” là thứ được tổ chức → O. “interesting” chỉ bổ nghĩa cho danh từ “activities”.",
+"Sai. Cụm này không mô tả “The club”."
+]},
+{t:"Mức 6 • Tổng hợp",q:"Nhận định nào đúng nhất về câu đơn?",o:[
+"Câu đơn luôn chỉ có đúng 3 từ.",
+"Câu đơn không được có từ “and”.",
+"Câu đơn có một mệnh đề chính; có thể có chủ ngữ kép hoặc động từ kép.",
+"Câu đơn bắt buộc phải có tân ngữ."
+],a:2,e:[
+"Sai. Câu đơn có thể rất ngắn hoặc khá dài.",
+"Sai. “and” vẫn có thể nối hai chủ ngữ hoặc hai động từ trong một câu đơn.",
+"Đúng. Đây là kiến thức cốt lõi: <b>một mệnh đề chính</b>, dù bên trong có thể có subject/verb compound.",
+"Sai. Nhiều câu đơn không cần O, ví dụ “Birds fly.”"
+]}
+]
+
+let order=[...Array(questions.length).keys()], pos=0, score=0, answered=false, wrong=[];
+function startQuiz(){
+  const n=document.getElementById('studentName').value.trim();
+  const c=document.getElementById('studentClass').value.trim();
+  document.getElementById('studentLabel').textContent=(n||'Học sinh')+(c?' • '+c:'');
+  document.getElementById('quizSection').style.display='block';
+  document.getElementById('quizSection').scrollIntoView({behavior:'smooth'});
+  pos=0; score=0; wrong=[]; render();
+}
+function render(){
+  answered=false;
+  document.getElementById('resultCard').classList.add('hidden');
+  document.getElementById('questionCard').classList.remove('hidden');
+  const q=questions[order[pos]];
+  document.getElementById('counter').textContent=`Câu ${pos+1}/${order.length}`;
+  document.getElementById('bar').style.width=`${(pos/order.length)*100}%`;
+  document.getElementById('scoreNow').textContent=`Điểm: ${score}`;
+  document.getElementById('topicPill').textContent=q.t;
+  document.getElementById('questionText').innerHTML=q.q;
+  const ans=document.getElementById('answers'); ans.innerHTML='';
+  q.o.forEach((x,i)=>{
+    const b=document.createElement('button'); b.className='opt';
+    b.innerHTML=`<span class="letter">${'ABCD'[i]}</span><span>${x}</span>`;
+    b.onclick=()=>choose(i,b);
+    ans.appendChild(b);
+  });
+  const fb=document.getElementById('feedback'); fb.className='feedback'; 
+  document.getElementById('nextBtn').disabled=true;
+}
+function choose(i,btn){
+  if(answered)return; answered=true;
+  const q=questions[order[pos]], opts=[...document.querySelectorAll('.opt')];
+  opts.forEach((b,k)=>{b.disabled=true;if(k===q.a)b.classList.add('correct')});
+  const ok=i===q.a;
+  if(ok){score++;confetti(btn);beep(true)} else {btn.classList.add('wrong','shake');wrong.push(order[pos]);beep(false)}
+  document.getElementById('scoreNow').textContent=`Điểm: ${score}`;
+  const fb=document.getElementById('feedback'); fb.className='feedback show '+(ok?'good':'bad');
+  document.getElementById('feedbackTitle').innerHTML=ok?'<b>✅ Chính xác!</b>':'<b>❌ Chưa đúng.</b>';
+  document.getElementById('feedbackMain').innerHTML=`Đáp án đúng: <b>${'ABCD'[q.a]}. ${q.o[q.a]}</b>`;
+  document.getElementById('why').innerHTML=q.e.map((x,k)=>`<div><b>${'ABCD'[k]}.</b> ${x}</div>`).join('');
+  document.getElementById('nextBtn').disabled=false;
+  document.getElementById('nextBtn').textContent=(pos===order.length-1)?'Xem kết quả':'Câu tiếp theo →';
+}
+function nextQuestion(){
+  if(!answered)return;
+  pos++;
+  if(pos>=order.length)showResult(); else render();
+}
+function showResult(){
+  document.getElementById('questionCard').classList.add('hidden');
+  const r=document.getElementById('resultCard'); r.classList.remove('hidden');
+  document.getElementById('bar').style.width='100%';
+  const pct=Math.round(score/order.length*100);
+  document.getElementById('finalScore').textContent=`${score}/${order.length}`;
+  document.getElementById('percent').textContent=pct+'%';
+  document.getElementById('wrongCount').textContent=wrong.length;
+  let level='Cần ôn lại', text='Em nên đọc lại phần lý thuyết, đặc biệt phân biệt O/C và câu đơn có chủ ngữ/động từ kép.';
+  if(pct>=90){level='Thành thạo';text='Rất tốt. Em đã nắm vững cấu trúc câu đơn. Hãy làm lại câu sai để khóa kiến thức vào trí nhớ.'}
+  else if(pct>=75){level='Khá chắc';text='Em đã hiểu phần lớn. Hãy làm lại toàn bộ câu sai ngay để tránh lặp lỗi.'}
+  else if(pct>=60){level='Đang tiến bộ';text='Em đã có nền tảng nhưng vẫn nhầm một số cấu trúc. Hãy làm lại câu sai và đọc kỹ giải thích A/B/C/D.'}
+  document.getElementById('level').textContent=level;
+  document.getElementById('resultText').textContent=text;
+  document.getElementById('retryWrongBtn').disabled=wrong.length===0;
+  if(pct>=90)confetti(r,45);
+}
+function retryWrong(){
+  order=[...new Set(wrong)]; pos=0; score=0; wrong=[]; render();
+  document.getElementById('questionCard').scrollIntoView({behavior:'smooth'});
+}
+function restartAll(){
+  order=[...Array(questions.length).keys()]; pos=0; score=0; wrong=[]; render();
+  document.getElementById('questionCard').scrollIntoView({behavior:'smooth'});
+}
+function beep(ok){
+  try{
+    const ac=new (window.AudioContext||window.webkitAudioContext)(),o=ac.createOscillator(),g=ac.createGain();
+    o.connect(g);g.connect(ac.destination);o.frequency.value=ok?740:220;g.gain.value=.05;o.start();
+    if(ok)o.frequency.exponentialRampToValueAtTime(980,ac.currentTime+.12);
+    else o.frequency.exponentialRampToValueAtTime(130,ac.currentTime+.18);
+    g.gain.exponentialRampToValueAtTime(.001,ac.currentTime+.22);o.stop(ac.currentTime+.23);
+  }catch(e){}
+}
+function confetti(el,n=20){
+  const r=el.getBoundingClientRect(),x=r.left+r.width/2,y=r.top+r.height/2;
+  for(let i=0;i<n;i++){
+    const s=document.createElement('i');s.className='spark';
+    s.style.left=x+'px';s.style.top=y+'px';
+    s.style.background=['#4dd4ac','#68a7ff','#ffd166','#ff6b81'][i%4];
+    s.style.setProperty('--x',(Math.random()*240-120)+'px');s.style.setProperty('--y',(Math.random()*-180-20)+'px');
+    document.body.appendChild(s);setTimeout(()=>s.remove(),900);
+  }
+}
+</script>
+</body>
+</html>
